@@ -12,13 +12,12 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate snake animation
-        uses: Platane/snk@v3
-        with:
-          github_user_name: Ha1baraA11
-          outputs: |
-            dist/snake.svg
-            dist/snake-dark.svg?palette=github-dark
+      - uses: actions/checkout@v4
+
+      - name: Generate 2026 contribution snake
+        run: node scripts/generate-snake.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish generated files
         uses: crazy-max/ghaction-github-pages@v4
