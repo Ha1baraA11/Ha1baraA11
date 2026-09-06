@@ -69,10 +69,8 @@ const rects = cells.map((cell) => {
 }).join('')
 
 const points = ordered.map((cell) => `${margin + cell.x * (size + gap) + size / 2},${margin + cell.y * (size + gap) + size / 2}`).join(' ')
-const head = ordered.at(-1)
-const headX = margin + head.x * (size + gap)
-const headY = margin + head.y * (size + gap)
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="#0d1117"/><g>${rects}</g><polyline points="${points}" fill="none" stroke="#bf00ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><rect x="${headX}" y="${headY}" width="${size}" height="${size}" rx="3" fill="#d400ff"/></svg>`
+const pathLength = Math.max(1, ordered.length * (size + gap))
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="#0d1117"/><g>${rects}</g><polyline points="${points}" fill="none" stroke="#bf00ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${size * 9} ${pathLength}" stroke-dashoffset="0" opacity=".95"><animate attributeName="stroke-dashoffset" from="0" to="-${pathLength}" dur="12s" repeatCount="indefinite"/></polyline></svg>`
 
 await fs.mkdir('dist', { recursive: true })
 await fs.writeFile('dist/snake.svg', svg)
